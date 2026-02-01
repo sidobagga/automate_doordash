@@ -1,0 +1,23 @@
+name: DoorDash Admin Reminder
+
+on:
+  schedule:
+    # Runs at 9am PT every Friday
+    # Note: GitHub Actions uses UTC, so 9am PT = 17:00 UTC (PST) or 16:00 UTC (PDT)
+    # Using 16:00 UTC for PDT (adjust if needed)
+    - cron: '0 16 * * 5'
+  workflow_dispatch: # Allows manual triggering for testing
+
+jobs:
+  notify_admin:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack DM to admin
+        env:
+          SLACK_ADMIN_WEBHOOK_URL: ${{ secrets.SLACK_ADMIN_WEBHOOK_URL }}
+        run: |
+          curl -X POST "$SLACK_ADMIN_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "text": "👋 Reminder: Please set up the restaurants for this weekend! <https://www.doordash.com/teams/calendar?calId=eyJ0ZWFtQWNjb3VudElkIjoiZmU3NzFiOTAtYmEyOS00ZTNmLWFlNDItZmFkMzYwN2IxM2YwIiwidGVhbU5hbWUiOiJDZW50ZXIgZm9yIFBJIFNhZmV0eSIsIm9mZmljZUlkIjoiNTQxNTdiNTItM2Q5YS00MDFkLWJjMTItMzdhY2NiOGU1N2RhIiwib2ZmaWNlQWRkcmVzcyI6IjU1NSBNb250Z29tZXJ5IFN0LCBTYW4gRnJhbmNpc2NvLCBDQSA5NDExMSwgVVNBIiwidGltZXpvbmUiOiJBbWVyaWNhL0xvc19BbmdlbGVzIn0=|Click here to access the meal calendar>"
+            }'
