@@ -34,7 +34,7 @@ Edit the `text` field in the workflow file. Slack link format: `<URL|display tex
 
 ## How to set up for future workspaces
 
-### 1. Get Doordash for Business Link
+### 1. Get Doordash for Business Link (One-time Setup)
 
 1. Login to [Doordash for Business](https://www.doordash.com/teams/admin)
 2. Click **Group Orders**
