@@ -34,7 +34,17 @@ Edit the `text` field in the workflow file. Slack link format: `<URL|display tex
 
 ## How to set up for future workspaces
 
-### 1. Create a Slack Incoming Webhook
+### 1. Get Doordash for Business Link
+
+1. Login to [Doordash for Business](https://www.doordash.com/teams/admin)
+2. Click **Group Orders**
+3. Click **Share Meal Calendar** and copy url.
+4. Go to your GitHub repo → Settings → Secrets and variables → Actions
+5. Click the Variables tab
+6. Click New repository variable
+7. Name: DOORDASH_CALENDAR_URL
+
+### 2. Create a Slack Incoming Webhook
 
 1. Go to [Slack App Management](https://api.slack.com/apps)
 2. Click **Create New App** → **From scratch**
@@ -44,7 +54,7 @@ Edit the `text` field in the workflow file. Slack link format: `<URL|display tex
 6. Select the **#foods** channel and click **Allow**
 7. Copy the Webhook URL (looks like `https://hooks.slack.com/services/T.../B.../xxx`)
 
-### 2. Add the Webhook to GitHub Secrets
+### 3. Add the Webhook to GitHub Secrets
 
 1. Go to your GitHub repo → **Settings** → **Secrets and variables** → **Actions**
 2. Click **New repository secret**
