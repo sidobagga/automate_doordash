@@ -15,9 +15,10 @@ jobs:
       - name: Send Slack notification
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DOORDASH_CALENDAR_URL: ${{ vars.DOORDASH_CALENDAR_URL }}
         run: |
           curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d '{
-              "text": "🍕 Weekend meals are up! <https://www.doordash.com/teams/calendar?calId=eyJ0ZWFtQWNjb3VudElkIjoiZmU3NzFiOTAtYmEyOS00ZTNmLWFlNDItZmFkMzYwN2IxM2YwIiwidGVhbU5hbWUiOiJDZW50ZXIgZm9yIFBJIFNhZmV0eSIsIm9mZmljZUlkIjoiNTQxNTdiNTItM2Q5YS00MDFkLWJjMTItMzdhY2NiOGU1N2RhIiwib2ZmaWNlQWRkcmVzcyI6IjU1NSBNb250Z29tZXJ5IFN0LCBTYW4gRnJhbmNpc2NvLCBDQSA5NDExMSwgVVNBIiwidGltZXpvbmUiOiJBbWVyaWNhL0xvc19BbmdlbGVzIn0=|Click here to order> for today'\''s lunch and dinner."
-            }'
+            -d "{
+              \"text\": \"🍕 Weekend meals are up! <${DOORDASH_CALENDAR_URL}|Click here to order> for today's lunch and dinner.\"
+            }"

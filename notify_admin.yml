@@ -15,9 +15,10 @@ jobs:
       - name: Send Slack DM to admin
         env:
           SLACK_ADMIN_WEBHOOK_URL: ${{ secrets.SLACK_ADMIN_WEBHOOK_URL }}
+          DOORDASH_CALENDAR_URL: ${{ vars.DOORDASH_CALENDAR_URL }}
         run: |
           curl -X POST "$SLACK_ADMIN_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d '{
-              "text": "👋 Reminder: Please set up the restaurants for this weekend! <https://www.doordash.com/teams/calendar?calId=eyJ0ZWFtQWNjb3VudElkIjoiZmU3NzFiOTAtYmEyOS00ZTNmLWFlNDItZmFkMzYwN2IxM2YwIiwidGVhbU5hbWUiOiJDZW50ZXIgZm9yIFBJIFNhZmV0eSIsIm9mZmljZUlkIjoiNTQxNTdiNTItM2Q5YS00MDFkLWJjMTItMzdhY2NiOGU1N2RhIiwib2ZmaWNlQWRkcmVzcyI6IjU1NSBNb250Z29tZXJ5IFN0LCBTYW4gRnJhbmNpc2NvLCBDQSA5NDExMSwgVVNBIiwidGltZXpvbmUiOiJBbWVyaWNhL0xvc19BbmdlbGVzIn0=|Click here to access the meal calendar>"
-            }'
+            -d "{
+              \"text\": \"👋 Reminder: Please set up the restaurants for this weekend! <${DOORDASH_CALENDAR_URL}|Click here to access the meal calendar>\"
+            }"
