@@ -1,8 +1,38 @@
 # DoorDash Meal Reminder Bot
 
-Sends a Slack notification every Saturday and Sunday morning with a link to the team's DoorDash meal calendar.
+Sends a Slack notification every Saturday and Sunday morning at 9am PT with a link to the team's DoorDash meal calendar.
 
-## Setup
+## Testing
+
+To test immediately without waiting for the schedule:
+
+1. Go to **Actions** tab in your repo
+2. Select **DoorDash Meal Reminder**
+3. Click **Run workflow** → **Run workflow**
+
+### Customization
+
+### Change the schedule
+
+Edit `.github/workflows/notify.yml` and modify the cron expression:
+
+```yaml
+schedule:
+  - cron: '0 16 * * 0,6'  # 9am PT on Sat (6) and Sun (0)
+```
+
+Cron format: `minute hour day month weekday` (UTC timezone)
+
+### Change the message
+
+Edit the `text` field in the workflow file. Slack link format: `<URL|display text>`
+
+
+......
+
+
+
+## How to set up for future workspaces
 
 ### 1. Create a Slack Incoming Webhook
 
@@ -22,31 +52,3 @@ Sends a Slack notification every Saturday and Sunday morning with a link to the 
 4. Value: Paste your webhook URL
 5. Click **Add secret**
 
-### 3. You're Done!
-
-The workflow will automatically run every Saturday and Sunday at 9am PT.
-
-## Testing
-
-To test immediately without waiting for the schedule:
-
-1. Go to **Actions** tab in your repo
-2. Select **DoorDash Meal Reminder**
-3. Click **Run workflow** → **Run workflow**
-
-## Customization
-
-### Change the schedule
-
-Edit `.github/workflows/notify.yml` and modify the cron expression:
-
-```yaml
-schedule:
-  - cron: '0 16 * * 0,6'  # 9am PT on Sat (6) and Sun (0)
-```
-
-Cron format: `minute hour day month weekday` (UTC timezone)
-
-### Change the message
-
-Edit the `text` field in the workflow file. Slack link format: `<URL|display text>`
