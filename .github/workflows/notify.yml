@@ -2,10 +2,13 @@ name: DoorDash Meal Reminder
 
 on:
   schedule:
-    # Runs at 9am PT every Saturday and Sunday
-    # Note: GitHub Actions uses UTC, so 9am PT = 17:00 UTC (PST) or 16:00 UTC (PDT)
-    # Using 16:00 UTC for PDT (adjust if needed)
-    - cron: '0 16 * * 0,6'
+    # Times in UTC (PDT = UTC-7)
+    # 10:00am PT = 17:00 UTC
+    - cron: '0 17 * * 0,6'
+    # 11:30am PT = 18:30 UTC (15 min before lunch)
+    - cron: '30 18 * * 0,6'
+    # 4:30pm PT = 23:30 UTC (15 min before dinner)
+    - cron: '30 23 * * 0,6'
   workflow_dispatch: # Allows manual triggering for testing
 
 jobs:
@@ -17,8 +20,18 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           DOORDASH_CALENDAR_URL: ${{ vars.DOORDASH_CALENDAR_URL }}
         run: |
+          # Get current hour in PT
+          HOUR=$(TZ="America/Los_Angeles" date +%H)
+          MINUTE=$(TZ="America/Los_Angeles" date +%M)
+
+          if [ "$HOUR" -eq 10 ]; then
+            MESSAGE="🍕 Weekend meals are up! <${DOORDASH_CALENDAR_URL}|Click here to order> for today's lunch and dinner."
+          elif [ "$HOUR" -eq 11 ]; then
+            MESSAGE="⏰ Reminder: Lunch orders close soon! <${DOORDASH_CALENDAR_URL}|Order now> if you haven't already."
+          else
+            MESSAGE="⏰ Reminder: Dinner orders close soon! <${DOORDASH_CALENDAR_URL}|Order now> if you haven't already."
+          fi
+
           curl -X POST "$SLACK_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{
-              \"text\": \"🍕 Weekend meals are up! <${DOORDASH_CALENDAR_URL}|Click here to order> for today's lunch and dinner.\"
-            }"
+            -d "{\"text\": \"$MESSAGE\"}"
